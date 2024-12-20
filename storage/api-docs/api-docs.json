@@ -1,0 +1,318 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Mahasiswa API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/tesss"
+        },
+        {
+            "url": "/"
+        }
+    ],
+    "paths": {
+        "/api/mahasiswas": {
+            "get": {
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Dapatkan daftar semua mahasiswa",
+                "description": "Mengembalikan daftar semua mahasiswa",
+                "operationId": "getMahasiswa",
+                "responses": {
+                    "200": {
+                        "description": "Daftar mahasiswa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Mahasiswa"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Tambahkan mahasiswa baru",
+                "description": "Menambahkan data mahasiswa baru",
+                "operationId": "createMahasiswa",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Mahasiswa"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Mahasiswa berhasil ditambahkan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Mahasiswa"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/mahasiswas/{id}": {
+            "get": {
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Dapatkan data mahasiswa berdasarkan ID",
+                "description": "Mengembalikan data mahasiswa berdasarkan ID",
+                "operationId": "getMahasiswaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID mahasiswa yang dicari",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail mahasiswa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Mahasiswa"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mahasiswa tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Perbarui data mahasiswa",
+                "description": "Memperbarui informasi mahasiswa berdasarkan ID",
+                "operationId": "updateMahasiswa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID mahasiswa yang akan diperbarui",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MahasiswaRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mahasiswa berhasil diperbarui",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MahasiswaResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Data tidak valid"
+                    },
+                    "404": {
+                        "description": "Mahasiswa tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Hapus data mahasiswa berdasarkan ID",
+                "description": "Menghapus data mahasiswa berdasarkan ID",
+                "operationId": "deleteMahasiswaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID mahasiswa yang akan dihapus",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mahasiswa berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Mahasiswa tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "MahasiswaListResponse": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Mahasiswa"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "MahasiswaRequest": {
+                "properties": {
+                    "nim": {
+                        "type": "string"
+                    },
+                    "nama": {
+                        "type": "string"
+                    },
+                    "alamat": {
+                        "type": "string"
+                    },
+                    "tanggal_lahir": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "jurusan": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "MahasiswaResponse": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "nim": {
+                        "type": "string"
+                    },
+                    "nama": {
+                        "type": "string"
+                    },
+                    "alamat": {
+                        "type": "string"
+                    },
+                    "tanggal_lahir": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "jurusan": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "DeleteMahasiswaResponse": {
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Mahasiswa": {
+                "properties": {
+                    "id": {
+                        "description": "ID mahasiswa",
+                        "type": "integer"
+                    },
+                    "nim": {
+                        "description": "NIM mahasiswa",
+                        "type": "string"
+                    },
+                    "nama": {
+                        "description": "Nama mahasiswa",
+                        "type": "string"
+                    },
+                    "alamat": {
+                        "description": "Alamat mahasiswa",
+                        "type": "string"
+                    },
+                    "tanggal_lahir": {
+                        "description": "Tanggal Lahir mahasiswa",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "jurusan": {
+                        "description": "Jurusan mahasiswa",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Mahasiswa",
+            "description": "Mahasiswa"
+        }
+    ]
+}
